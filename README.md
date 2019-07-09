@@ -1,2 +1,2 @@
 # mixed-icp
-Contains artifacts and scripts for my mixed-icp blog
+Contains artifacts and scripts for my mixed workload placement blog

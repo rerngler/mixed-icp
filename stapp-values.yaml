@@ -1,0 +1,135 @@
+#       Copyright 2017-2019 IBM Corp All Rights Reserved
+
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+
+#       http://www.apache.org/licenses/LICENSE-2.0
+
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+# Default values for stocktrader.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+global:
+  replicas: 1
+  autoscale: false
+  monitoring: false
+  ingress: true
+  healthCheck: false
+  jsonLogging: false
+portfolio:
+  image:
+    repository: ibmstocktrader/portfolio
+    tag: latest
+  url: http://{{ .Release.Name }}-portfolio-service:9080/portfolio
+stockQuote:
+  image:
+    repository: ibmstocktrader/stock-quote
+    tag: latest
+  url: http://{{ .Release.Name }}-stock-quote-service:9080/stock-quote
+  apiConnect: <Enter your apiconnect url in IBM cloud>
+  iexTrading: https://api.iextrading.com/1.0/stock
+trader:
+  enabled: true
+  image:
+    repository: ibmstocktrader/trader
+    tag: basicregistry
+tradr:
+  enabled: true
+  image:
+    repository: ibmstocktrader/tradr
+    tag: latest
+messaging:
+  enabled: true
+  image:
+    repository: ibmstocktrader/messaging
+    tag: latest
+  notification:
+    url: http://{{ .Release.Name }}-notification-service:9080/notification
+notificationSlack:
+  enabled: true
+  image:
+    repository: ibmstocktrader/notification-slack
+    tag: latest
+notificationTwitter:
+  enabled: false
+  image:
+    repository: ibmstocktrader/notification-twitter
+    tag: latest
+tradeHistory:
+  enabled: true
+  image:
+    repository: ibmstocktrader/trade-history
+    tag: latest
+  url: http://{{ .Release.Name }}-trade-history-service:9080/trade-history
+looper:
+  enabled: false
+  image:
+    repository: ibmstocktrader/looper
+    tag: latest
+  url: http://{{ .Release.Name }}-looper-service:9080/looper
+jwt:
+  issuer: http://stock-trader.ibm.com
+  audience: stock-trader
+oidc:
+  name: IBMid
+  issuer: https://prepiam.toronto.ca.ibm.com
+  token: https://prepiam.toronto.ca.ibm.com/idaas/oidc/endpoint/default/token
+  auth: https://prepiam.toronto.ca.ibm.com/idaas/oidc/endpoint/default/authorize
+  clientId: <Enter your client ID here - required for tradr app>
+  clientSecret: <Enter your client secret here - required for tradr app>
+  key: idaaskey
+  nodePort: https://stocktrader.ibm.com
+ingress:
+  address: stocktrader.ibm.com
+watson:
+  id: apikey
+  passwordOrApiKey: <Enter the password to your watson tone analyzer service on IBM Cloud>
+  url: https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2017-09-21&sentences=false
+db2:
+  host: st-db2-ibm-db2oltp-dev
+  port: 50000
+  id: $DB2_USERNAME
+  password: $DB2_PASSWORD
+  db: $DB2_DATABASE
+odm:
+  id: odmAdmin
+  password: odmAdmin
+  url: http://st-odm-ibm-odm-dev:9060/DecisionService/rest/ICP_Trader_Dev_1/determineLoyalty
+mq:
+  host: st-mq-ibm-mq
+  port: 1414
+  id: app
+  password: "$MQ_APP_PASSWORD"
+  queueManager: $MQ_QMGR
+  queue: NotificationQ
+  channel: DEV.APP.SVRCONN
+redis:
+  urlWithCredentials: redis://st-redis-service:6379
+  cacheInterval: 60
+openwhisk:
+  id: <Enter the id to your openwhisk>
+  password: <Enter the password to your openwhisk>
+  url: <Enter the url to your openwhisk on IBM Cloud>
+twitter:
+  consumerKey: <Enter your twitter consumerKey>
+  consumerSecret: <Enter your twitter consumerSecret>
+  accessToken: <Enter your twitter access token>
+  accessTokenSecret: <Enter your twitter access token secret>
+kafka:
+  address: <Enter your kafka bootstrap address and port>
+  topic: stocktrader
+  user: token
+  apiKey:  <Enter your kafka API key to produce and consume the stocktrader topic>
+mongo:
+  ip: st-mongodb-ibm-mongodb-dev
+  port: 27017
+  user: $MONGO_USER
+  password: $MONGO_PASSWORD
+  database: trader
+  authDB: $MONGO_DBNAME
