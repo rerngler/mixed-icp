@@ -85,6 +85,7 @@ spec:
       nodeSelector:
         beta.kubernetes.io/arch: amd64
 ---
+{{- if .Values.global.autoscale }}
 #Deploy the autoscaler
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -101,6 +102,7 @@ spec:
   minReplicas: 1
   targetCPUUtilizationPercentage: 60
 ---
+{{- end }}
 #Deploy the service
 apiVersion: v1
 kind: Service
