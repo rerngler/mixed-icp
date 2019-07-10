@@ -61,6 +61,7 @@ spec:
           - containerPort: 9080
           - containerPort: 9443
         imagePullPolicy: Always
+{{- if .Values.global.healthCheck }}
         readinessProbe:
           httpGet:
             path: /health
@@ -73,6 +74,7 @@ spec:
             port: 9080
           initialDelaySeconds: 60
           periodSeconds: 6
+{{- end }}
         resources:
           limits:
             cpu: 500m

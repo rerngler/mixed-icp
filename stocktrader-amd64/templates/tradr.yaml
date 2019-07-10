@@ -93,18 +93,20 @@ spec:
         ports:
           - containerPort: 3000
         imagePullPolicy: Always
-#        readinessProbe:
-#          httpGet:
-#            path: /health
-#            port: 3000
-#          initialDelaySeconds: 30
-#          periodSeconds: 6
-#        livenessProbe:
-#          httpGet:
-#            path: /health
-#            port: 3000
-#          initialDelaySeconds: 60
-#          periodSeconds: 6
+{{- if .Values.global.healthCheck }}
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 6
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 60
+          periodSeconds: 6
+{{- end }}
         resources:
           limits:
             cpu: 500m

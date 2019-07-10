@@ -186,6 +186,7 @@ spec:
           - containerPort: 9080
           - containerPort: 9443
         imagePullPolicy: Always
+{{- if .Values.global.healthCheck }}
         readinessProbe:
           httpGet:
             path: /health
@@ -198,6 +199,7 @@ spec:
             port: 9080
           initialDelaySeconds: 60
           periodSeconds: 6
+{{- end }}
         resources:
           limits:
             cpu: 500m
@@ -215,6 +217,7 @@ spec:
       nodeSelector:
         beta.kubernetes.io/arch: amd64                                          
 ---
+{{- if .Values.global.autoscale }}
 #Deploy the autoscaler
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -227,10 +230,11 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ .Release.Name }}-portfolio
-  maxReplicas: {{ .Values.global.replicas }}
-  minReplicas: 1
+  maxReplicas: 10
+  minReplicas: {{ .Values.global.replicas }}
   targetCPUUtilizationPercentage: 60
 ---
+{{- end }}
 #Deploy the service
 apiVersion: v1
 kind: Service
