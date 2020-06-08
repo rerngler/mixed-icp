@@ -13,12 +13,12 @@ DOCKER_EMAIL="<Enter your docker email here>"
 
 DB2_DATABASE="STOCKTRD"
 DB2_USERNAME="db2inst1"
-DB2_PASSWORD="stocktraderdb"
+DB2_PASSWORD="<<enter your password>>"
 
 MQ_QMGR="trader"
-MQ_ADMIN_PASSWORD="passw0rd"
-MQ_APP_PASSWORD="passw0rd"
+MQ_ADMIN_PASSWORD="<<enter your password>>"
+MQ_APP_PASSWORD="<<enter your password>>"
 
 MONGO_DBNAME="admin"
 MONGO_USER="mongo"
-MONGO_PASSWORD="mongo"
+MONGO_PASSWORD="<<enter your password>>"
